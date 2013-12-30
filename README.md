@@ -1,6 +1,6 @@
 # Lanyon
 
-Lanyon is a [Jekyll](http://jekyllrb.com) theme built with a featuring a toggleable sidebar drawer for out of sight navigation. It's based on [Poole](https://github.com/poole/poole), the Jekyll butler.
+Lanyon is a [Jekyll](http://jekyllrb.com) theme with a toggleable sidebar drawer for out of sight navigation. It's based on [Poole](https://github.com/poole/poole), the Jekyll butler.
 
 ![Lanyon](https://f.cloud.github.com/assets/98681/1819955/697ac4c8-70c0-11e3-8d34-403dac775329.png)
 ![Lanyon with open sidebar](https://f.cloud.github.com/assets/98681/1819956/697b6e5a-70c0-11e3-8fe9-b8098f9c61e5.png)
@@ -53,7 +53,7 @@ There are eight themes available at this time.
 
 ![Available theme classes](https://f.cloud.github.com/assets/98681/1817044/e5b0ec06-6f68-11e3-83d7-acd1942797a1.png)
 
-To use a theme, add anyone of the available theme classes to the `<body>` element in the `default.html` layout, like so:
+To use a theme, add any one of the available theme classes to the `<body>` element in the `default.html` layout, like so:
 
 ```html
 <body class="theme-base-08">
