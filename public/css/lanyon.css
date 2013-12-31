@@ -25,6 +25,7 @@
  * Global resets
  * Masthead
  * Sidebar
+ * Slide effect
  * Posts and pages
  * Pagination
  * Reverse layout
@@ -67,8 +68,27 @@ h1, h2, h3, h4, h5, h6 {
 .wrap {
   position: relative;
   width: 100%;
-  -webkit-transition: -webkit-transform 0.3s ease-in-out;
-          transition: transform 0.3s ease-in-out;
+}
+
+
+/*
+ * Container
+ *
+ * Center the page content.
+ */
+
+.container {
+  max-width: 28rem;
+}
+@media (min-width: 38rem) {
+  .container {
+    max-width: 32rem;
+  }
+}
+@media (min-width: 56rem) {
+  .container {
+    max-width: 38rem;
+  }
 }
 
 
@@ -79,17 +99,14 @@ h1, h2, h3, h4, h5, h6 {
  */
 
 .masthead {
-  text-align: center;
+  border-bottom: 1px solid #eee;
 }
-.masthead-title small {
-  display: none;
-}
-@media (min-width: 48rem) {
-  .masthead {
-    text-align: left;
+@media (max-width: 48rem) {
+  .masthead-title {
+    text-align: center;
   }
   .masthead-title small {
-    display: inline;
+    display: none;
   }
 }
 
@@ -111,37 +128,16 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Style and "hide" the sidebar */
 .sidebar {
-  max-height: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -14rem;
+  width: 14rem;
+  overflow-y: auto;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
-  font-size: .875rem; /* 14px */
+  font-size: .875rem; /* 15px */
   color: rgba(255,255,255,.6);
   background-color: #202020;
-  transition: max-height 0.3s ease-in-out;
-}
-
-@media (min-width: 48rem) {
-  .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    overflow-y: auto;
-    width: 14rem;
-    max-height: none;
-    font-size: .75rem; /* 15px */
-    -webkit-transition: -webkit-transform 0.3s ease-in-out;
-       -moz-transition: -moz-transform 0.3s ease-in-out;
-        -ms-transition: -ms-transform 0.3s ease-in-out;
-            transition: transform 0.3s ease-in-out;
-    -webkit-transform: translate3d(-100%, 0, 0);
-       -moz-transform: translate3d(-100%, 0, 0);
-        -ms-transform: translate3d(-100%, 0, 0);
-            transform: translate3d(-100%, 0, 0);
-    -webkit-backface-visibility: hidden;
-       -moz-backface-visibility: hidden;
-        -ms-backface-visibility: hidden;
-            backface-visibility: hidden;
-  }
 }
 
 /* Sidebar content */
@@ -191,50 +187,84 @@ a.sidebar-nav-item:focus {
 /* Style the `label` that we use to target the `.sidebar-checkbox` */
 .sidebar-toggle {
   position: absolute;
-  top:  .8rem;
+  top:  1rem;
   left: 1rem;
-  padding: .4rem .65rem;
-  font-family: Arial, sans-serif; /* Ensure vertical alignment */
-  line-height: 1;
+  display: block;
+  width: 2.2rem;
+  padding: .5rem .65rem;
   color: #505050;
   background-color: #fff;
   border-radius: 4px;
   cursor: pointer;
-  -webkit-transition: -webkit-transform 0.3s ease-in-out;
-     -moz-transition: -moz-transform 0.3s ease-in-out;
-      -ms-transition: -ms-transform 0.3s ease-in-out;
-          transition: transform 0.3s ease-in-out;
 }
+.sidebar-toggle:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-bottom: .125rem;
+  border-top: .375rem double;
+  border-bottom: .125rem solid;
+
+  /* Make the border inside the box */
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 .sidebar-toggle:active,
 #sidebar-checkbox:checked ~ .wrap .sidebar-toggle {
   color: #fff;
   background-color: #505050;
 }
 
-#sidebar-checkbox:checked + .sidebar {
-  max-height: 1000px;
-}
-
-@media (min-width: 48rem) {
+@media (min-width: 30.1rem) {
   .sidebar-toggle {
     position: fixed;
-    left: 1rem;
+    width: 2.25rem;
   }
-  #sidebar-checkbox:checked + .sidebar {
-    max-height: none;
+  .sidebar-toggle:before {
+    padding-bottom: .15rem;
+    border-top-width: .45rem;
+    border-bottom-width: .15rem;
   }
-  #sidebar-checkbox:checked + .sidebar {
-    -webkit-transform: translate3d(0, 0, 0);
-       -moz-transform: translate3d(0, 0, 0);
-        -ms-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-  }
-  #sidebar-checkbox:checked ~ .wrap {
-    -webkit-transform: translate3d(14rem, 0, 0);
-       -moz-transform: translate3d(14rem, 0, 0);
-        -ms-transform: translate3d(14rem, 0, 0);
-            transform: translate3d(14rem, 0, 0);
-  }
+}
+
+
+/* Slide effect
+ *
+ * Handle the sliding effects of the sidebar and content in one spot, seperate
+ * from the default styles.
+ *
+ * As an a heads up, we don't use `transform: translate3d()` here because when
+ * mixed with `position: fixed;` for the sidebar toggle, it creates a new
+ * containing block. Put simply, the fixed sidebar toggle behaves like
+ * `position: absolute;` when transformed.
+ *
+ * Read more about it at http://meyerweb.com/eric/thoughts/2011/09/12/.
+ */
+
+.wrap,
+.sidebar,
+.sidebar-toggle {
+  -webkit-transition: left 0.3s ease-in-out;
+     -moz-transition: left 0.3s ease-in-out;
+      -ms-transition: left 0.3s ease-in-out;
+          transition: left 0.3s ease-in-out;
+    -webkit-backface-visibility: hidden;
+       -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+            backface-visibility: hidden;
+  -webkit-perspective: 1000;
+     -moz-perspective: 1000;
+      -ms-perspective: 1000;
+          perspective: 1000;
+}
+
+#sidebar-checkbox:checked + .sidebar {
+  left: 0;
+}
+#sidebar-checkbox:checked ~ .wrap {
+  left: 14rem;
 }
 
 
@@ -354,36 +384,31 @@ a.pagination-item:hover {
  * on the right side.
  */
 
+.layout-reverse .wrap,
+.layout-reverse .sidebar,
 .layout-reverse .sidebar-toggle {
+  -webkit-transition-property: right;
+     -moz-transition-property: right;
+      -ms-transition-property: right;
+          transition-property: right;
+}
+
+.layout-reverse .sidebar {
+  left: auto;
+  right: -14rem;
+}
+.layout-reverse .sidebar-toggle {
+  left: auto;
+  right: 1rem;
+}
+
+.layout-reverse #sidebar-checkbox:checked + .sidebar {
   left: auto;
   right: 0;
 }
-
-@media (min-width: 48rem) {
-  .layout-reverse .sidebar {
-    left: auto;
-    right: -14rem;
-    transition-property: right;
-  }
-  .layout-reverse .sidebar-toggle {
-    left: auto;
-    right: 1rem;
-  }
-  .layout-reverse .wrap {
-    transition-property: right;
-  }
-  .layout-reverse #sidebar-checkbox:checked + .sidebar {
-    left: auto;
-    right: 0;
-  }
-  .layout-reverse #sidebar-checkbox:checked ~ .wrap {
-    left: auto;
-    right: 14rem;
-  }
-  .layout-reverse #sidebar-checkbox:checked ~ .wrap .sidebar-toggle {
-    left: auto;
-    right: 15rem;
-  }
+.layout-reverse #sidebar-checkbox:checked ~ .wrap {
+  left: auto;
+  right: 14rem;
 }
 
 
